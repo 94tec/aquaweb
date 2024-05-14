@@ -3,7 +3,7 @@ const express = require('express');
 require('dotenv').config();
 const router = express.Router();
 
-const AdminUser = require('../models/adminUserModel');
+const AdminUser = require('../models/AdminUserModel.js');
 const User = require('../models/User.js');
 const { verifyToken, requireRole} = require('../middleware/index');
 

@@ -1,7 +1,7 @@
 // Example of verifyToken middleware
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
-const AdminUser = require('../models/adminUserModel');
+const AdminUser = require('../models/AdminUserModel');
 const User = require('../models/User');
 
 function verifyToken(req, res, next) {

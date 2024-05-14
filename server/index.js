@@ -11,6 +11,10 @@ const adminRoutes = require('./src/routes/adminRoutes.js');
 
 const userAuthRoutes = require('./src/routes/authUser.js');
 const userRoutes = require('./src/routes/userRoutes.js');
+const fisheriesRoutes = require('./src/routes/fisheriesRoutes.js');
+const catchRoutes = require('./src/routes/catchRoutes.js');
+const vesselRoutes = require('./src/routes/vesselRoutes.js');
+const gearRoutes = require('./src/routes/gearRoutes.js');
 
 const app = express();
 app.use(express.urlencoded({ extended: false }));
@@ -45,14 +49,19 @@ app.use((err, req, res, next) => {
     console.error(err.stack);
     res.status(500).json({ message: 'Internal server error' });
 });  
-  app.use(passport.initialize());
-  app.use(passport.session());  
+app.use(passport.initialize());
+app.use(passport.session());  
 
-  app.use('/api/auth/admin', adminAuthRoutes);
-  app.use('/api/admin', adminRoutes);
+app.use('/api/auth/admin', adminAuthRoutes);
+app.use('/api/admin', adminRoutes);
 
-  app.use('/api/auth/', userAuthRoutes); 
-  app.use('/api/users', userRoutes);
+app.use('/api/auth/', userAuthRoutes); 
+app.use('/api/users', userRoutes);
+
+app.use('/api/fisheries', fisheriesRoutes);
+app.use('/api/catch', catchRoutes);
+app.use('/api/vessels', vesselRoutes);  // New
+app.use('/api/gears', gearRoutes);
   
 // const crypto = require('crypto');
 

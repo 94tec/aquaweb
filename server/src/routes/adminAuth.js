@@ -9,7 +9,7 @@ const router = express.Router();
 const initializePassport = require('../middleware/passport.js');
 const User = require('../models/User.js');
 // Import the AdminUserModel
-const AdminUser = require('../models/adminUserModel');
+const AdminUser = require('../models/AdminUserModel.js');
 const { verifyToken, requireRole } = require('../middleware/index');
 const { validateRegistration, validateLogin} = require('../middleware/validatorMiddleware');
 
