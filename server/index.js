@@ -11,10 +11,12 @@ const adminRoutes = require('./src/routes/adminRoutes.js');
 
 const userAuthRoutes = require('./src/routes/authUser.js');
 const userRoutes = require('./src/routes/userRoutes.js');
+const fisherRoutes = require('./src/routes/fisherRoutes');
 const fisheriesRoutes = require('./src/routes/fisheriesRoutes.js');
 const catchRoutes = require('./src/routes/catchRoutes.js');
 const vesselRoutes = require('./src/routes/vesselRoutes.js');
 const gearRoutes = require('./src/routes/gearRoutes.js');
+const fisherLogRoutes = require('./src/routes/fisherLogRoutes');
 
 const app = express();
 app.use(express.urlencoded({ extended: false }));
@@ -58,10 +60,13 @@ app.use('/api/admin', adminRoutes);
 app.use('/api/auth/', userAuthRoutes); 
 app.use('/api/users', userRoutes);
 
+app.use('/api/fisher', fisherRoutes);
+
 app.use('/api/fisheries', fisheriesRoutes);
 app.use('/api/catch', catchRoutes);
 app.use('/api/vessels', vesselRoutes);  // New
 app.use('/api/gears', gearRoutes);
+app.use('/api/fisherlogs', fisherLogRoutes);
   
 // const crypto = require('crypto');
 

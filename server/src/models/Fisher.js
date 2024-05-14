@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
-const userSchema = new mongoose.Schema({
+const fisherSchema = new mongoose.Schema({
     firstname: {
         type: String,
         required: true,
@@ -36,17 +36,19 @@ const userSchema = new mongoose.Schema({
     },
     role: {
         type: String,
-        enum: ['admin', 'user'],
-        default: 'user'
+        enum: ['admin', 'user', 'fisher'],
+        default: 'fisher'
     },
-    addedFishers: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Fisher' }],
-    createdAt: {
-        type: Date,
-        default: Date.now
-    }
+    createdBy: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+    },
+    fisherLogs: [{ type: mongoose.Schema.Types.ObjectId, ref: 'FisherLog' }],
+    vessels: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Vessel' }],
+    gears: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Gear' }]
 }, { timestamps: true });
 
-userSchema.pre('save', async function (next) {
+fisherSchema.pre('save', async function (next) {
     if (!this.isModified('password')) {
         return next();
     }
@@ -59,11 +61,11 @@ userSchema.pre('save', async function (next) {
     }
 });
 
-userSchema.methods.comparePassword = async function (password) {
+fisherSchema.methods.comparePassword = async function (password) {
     return bcrypt.compare(password, this.password);
 };
 
-userSchema.methods.generateJWT = function () {
+fisherSchema.methods.generateJWT = function () {
     return jwt.sign({
         id: this._id,
         username: this.username,
@@ -71,6 +73,6 @@ userSchema.methods.generateJWT = function () {
     }, process.env.JWT_SECRET, { expiresIn: '1h' });
 };
 
-const User = mongoose.model('User', userSchema);
+const Fisher = mongoose.model('Fisher', fisherSchema);
 
-module.exports = User;
+module.exports = Fisher;
