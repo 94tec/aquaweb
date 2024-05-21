@@ -2,38 +2,19 @@
 const express = require('express');
 require('dotenv').config();
 const router = express.Router();
+const userController = require('../controllers/userController');
+const passport = require('passport');
+
+const initializePassport = require('../middleware/passport.js');
+
+initializePassport(passport);
 
 const {verifyToken } = require('../middleware/index.js');
 
-// Route to get logged in user's data
-router.get('/profile', verifyToken, async (req, res) => {
-    try {
-        // Assuming your verifyToken middleware adds the user's ID to req.user
-        const userId = req.user.id;
-        
-        // Fetch the user from the database
-        const user = await User.findById(userId).select('-password'); // Exclude password from the result
-        if (!user) {
-            return res.status(404).json({ message: 'User not found' });
-        }
+// User CRUD routes
+router.get('/', passport.authenticate('jwt-user', { session: false }),verifyToken, userController.getAllUsers);
+router.get('/profile', passport.authenticate('jwt-user', { session: false }),verifyToken, userController.getUserProfile);
+//router.put('/:id', passport.authenticate('jwt-user', { session: false }), userController.updateUser);
+//router.delete('/:id', passport.authenticate('jwt-user', { session: false }), userController.deleteUser);
 
-        // Respond with user data
-        res.json(user);
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: "An error occurred while getting  User Profile." });
-    }
-});
-// fetch  all users 
-router.get('/users', verifyToken, async (req, res) => {
-    try {
-        // Fetch all users from the database
-        const users = await User.find({});
-        res.json(users);
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: "An error occurred while getting users." });
-    }
-});   
 module.exports = router;
-
