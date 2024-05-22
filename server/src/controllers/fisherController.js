@@ -29,6 +29,7 @@ exports.getFisherProfile = async (req, res) => {
     }
 };
 
+//Update Fisher
 exports.updateFisher = async (req, res) => {
     try {
         const updatedFisher = await Fisher.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true });
